@@ -39,7 +39,7 @@ data=requests.get(url)
 # Records datas in file
 if data.status_code == requests.codes.ok:
     print("Url atteinte.")
-    with open($PWD/data/bankrank.txt, 'w', encoding='utf-8') as f:  #checker le dossier
+    with open($PWD/data/bank_rang.txt, 'w', encoding='utf-8') as f:  #checker le dossier
         f.write(data.text)
     print("Enregistrement des données terminé.")
 else:
@@ -60,7 +60,7 @@ r = requests.get(url)
 # Records datas in file
 if r.status_code == requests.codes.ok:
     print("API atteinte.")
-    with open($PWD/data/apitaux.txt, 'w', encoding='utf-8') as f:  #checker le dossier
+    with open($PWD/data/api_taux.txt, 'w', encoding='utf-8') as f:  #checker le dossier
         f.write(r.text)
     print("Enregistrement des données terminé.")
 else:

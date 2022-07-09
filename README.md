@@ -14,9 +14,9 @@ Release
 * table.py
 * create_table.py
 * extract.py (see comments)
+* transform.py (see comments)
 
 Unrelease
-* transform.py
 * load.py
 * execute.py
 * making modular programming (bank/api/immo/_extract/tranform/load.py)
