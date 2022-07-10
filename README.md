@@ -17,6 +17,6 @@ Release
 * transform.py (see comments)
 
 Unrelease
-* load.py
+* load.py (in progress)
 * execute.py
 * making modular programming (bank/api/immo/_extract/tranform/load.py)
