@@ -1,9 +1,12 @@
 # Imports
-import bs4
+from bs4 import BeautifulSoup
+from datetime import datetime
 import requests
+import pandas as pd
 import os
 import gzip
 import shutil
+#from config import ROOT_PATH
 
 
 # si prog modulaire : faire les imports de bank_extract.py/api_extract.py/immo_extract.py depuis le common
@@ -13,10 +16,9 @@ import shutil
 
 
 ##########
-# Dossiers
+# Var test
 ##########
-working_directory=os.getcwd()  #get working dir
-print("Dossier de travail actuel : ", working_directory)
+ROOT_PATH="/home/lenobian/Python/test/ETL_bank/workspace"
 
 
 ###########
@@ -34,16 +36,26 @@ print('Début de l\'extraction des données "Bank Rank".')
 url = 'https://en.wikipedia.org/wiki/List_of_largest_banks'
 
 # Request datas from url
-data=requests.get(url)
+data=requests.get(url).text
 
-# Records datas in file
-if data.status_code == requests.codes.ok:
-    print("Url atteinte.")
-    with open($PWD/data/bank_rang.txt, 'w', encoding='utf-8') as f:  #checker le dossier
-        f.write(data.text)
-    print("Enregistrement des données terminé.")
-else:
-    print("Url non accessible.")
+# Replace the dots below
+soup = BeautifulSoup(data, 'html.parser')
+
+# Create df_bank
+df_bank = pd.DataFrame(columns=['Name','Market Cap(US$ Billion)', 'Date_scrapping'])
+
+# Fill df
+for row in soup.find_all("tbody")[3].find_all("tr"):
+    col = row.find_all("td")
+    
+    if (col != []):       
+        marketcap = col[2].text.strip()
+        name = col[1].text.strip()
+        datescrap = datetime.today().year
+        df_bank = df_bank.append({"Name":name, "Market Cap(US$ Billion)":marketcap, "Date_scrapping" :datescrap}, ignore_index=True)
+
+# Records datas in csv
+df_bank.to_csv(ROOT_PATH+'/data/source/bank_rang.csv', index=False)
 
 ##########
 # API taux
@@ -60,7 +72,7 @@ r = requests.get(url)
 # Records datas in file
 if r.status_code == requests.codes.ok:
     print("API atteinte.")
-    with open($PWD/data/api_taux.txt, 'w', encoding='utf-8') as f:  #checker le dossier
+    with open(ROOT_PATH+'/data/source/api_taux.txt', 'w', encoding='utf-8') as f:  #checker le dossier
         f.write(r.text)
     print("Enregistrement des données terminé.")
 else:
@@ -80,7 +92,7 @@ while True:
         print("le fichier le plus récent est :",url+str(year)+"/full.csv.gz")
         print("Téléchargement en cours.")
         with requests.get(url+str(year)+"/full.csv.gz", stream=True) as r:
-            with open(path_immo+"/full.csv.gz", "wb") as f:  #checker le dossier
+            with open(ROOT_PATH+"/data/source/full.csv.gz", "wb") as f:  #checker le dossier
                 shutil.copyfileobj(r.raw, f) #Enregistrement du fichier (méthode + rapide)
         print("Téléchargement terminé.")
         break
@@ -97,8 +109,8 @@ while True:
 while True:
     try:
         print("Décompression du fichier.")
-        with gzip.open(path_immo+"/full.csv.gz", 'rb') as f_in:  #checker le dossier
-            with open(path_immo+"/extracted_full.csv", 'wb') as f_out:  #checker le dossier
+        with gzip.open(ROOT_PATH+"/data/source/full.csv.gz", 'rb') as f_in:  #checker le dossier
+            with open(ROOT_PATH+"/data/source/extracted_full.csv", 'wb') as f_out:  #checker le dossier
                 shutil.copyfileobj(f_in, f_out)
         print("Décompression terminée.")
         break
