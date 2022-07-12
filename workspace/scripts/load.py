@@ -3,7 +3,7 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, select
 from base import engine
-from table import ppr_values_temp, ppr_values_temp, raw_bank, bank_final, raw_taux, taux_final
+from table import ppr_values_temp, ppr_values_clean, raw_bank, bank_final, raw_taux, taux_final
 
 
 
@@ -34,13 +34,11 @@ df_bank=pd.read_csv(ROOT_PATH+"/data/raw/bank_rang.csv")
 # DF to dict
 bank_dict=df_bank.to_dict('records')
 
-# Create object to add session bank_raw
-for ligne in bank_dict:
-    obj=raw_bank(nom=ligne['Name'], date=ligne['Date_scrapping'], market_cap = ligne['MarketCap_EUROBillion']  )
-
-# Adding to session
+# Create object, add and commit to bank_raw
 with Session(engine) as session:  #initialize session in with statement to prevent connection errors
-    session.add(obj)
+    for ligne in bank_dict:
+        obj=raw_bank(nom=ligne['Name'], date=ligne['Date_scrapping'], market_cap = ligne['MarketCap_EUROBillion']  )
+        session.add(obj)
     session.commit()
 
 # Save in bank_final with changes if needed
@@ -62,13 +60,11 @@ df_api=pd.read_csv(ROOT_PATH+"/data/raw/api_taux.csv")
 # DF to dict
 api_dict=df_api.to_dict('records')
 
-# Create object to add session raw_taux
-for ligne in api_dict:
-    obj=raw_taux(nom=ligne['Nom'],rates=ligne['Rates'] )
-
-# Adding to session
+# Create object, add and commit to raw_taux
 with Session(engine) as session:  #initialize session in with statement to prevent connection errors
-    session.add(obj)
+    for ligne in api_dict:
+        obj=raw_taux(nom=ligne['Nom'],rates=ligne['Rates'] )
+        session.add(obj)
     session.commit()
 
 # Save in taux_raw with changes if needed
@@ -89,28 +85,29 @@ df_ppr=pd.read_csv(ROOT_PATH+"/data/raw/extracted_full.csv")
 # DF to dict
 ppr_dict=df_ppr.to_dict('records')
 
-# Create object to add session ppr_value_temp
-for row in ppr_dict:
-    obj=ppr_values_temp(
-        id_mutation=row['id_mutation'],
-        date_mutation=row['date_mutation'],
-        valeur_fonciere=row['valeur_fonciere'],
-        adresse_numero=row['adresse_numero'],
-        adresse_suffixe=row['adresse_suffixe'],
-        adresse_nom_voie=row['adresse_nom_voie'],
-        code_postal=row['code_postal'],
-        nom_commune=row['nom_commune'],
-        type_local=row['type_local']
-    )
-
-# Adding to session
+# Create object, add and commit to ppr_values_temp
 with Session(engine) as session:  #initialize session in with statement to prevent connection errors
-    session.add(obj)
+    for row in ppr_dict:
+        obj=ppr_values_temp(
+            id_mutation=row['id_mutation'],
+            date_mutation=row['date_mutation'],
+            valeur_fonciere=row['valeur_fonciere'],
+            adresse_numero=row['adresse_numero'],
+            adresse_suffixe=row['adresse_suffixe'],
+            adresse_nom_voie=row['adresse_nom_voie'],
+            code_postal=row['code_postal'],
+            nom_commune=row['nom_commune'],
+            type_local=row['type_local']
+        )
+        session.add(obj)
     session.commit()
 
 # Save in ppr_values_clean with changes if needed
 with Session(engine) as session:  #initialize session in with statement to prevent connection errors
-    session.add(obj)
+    cleaned_ppr_values=session.query(ppr_values_clean.id_property)
+    changes_to_insert = session.query(ppr_values_temp.id_mutation,ppr_values_temp.date_mutation,ppr_values_temp.valeur_fonciere,ppr_values_temp.adresse_numero,ppr_values_temp.adresse_suffixe,ppr_values_temp.adresse_nom_voie,ppr_values_temp.code_postal,ppr_values_temp.nom_commune,ppr_values_temp.type_local).filter(~ppr_values_temp.id_property.in_(cleaned_ppr_values))     
+    stm = insert(ppr_values_clean).from_select(['id_mutation','date_mutation','valeur_fonciere','adresse_numero','adresse_suffixe','adresse_nom_voie','code_postal','nom_commune','type_local'],changes_to_insert)
+    session.execute(stm)
     session.commit()
 
 # Delete changes if needed
