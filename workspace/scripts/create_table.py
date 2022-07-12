@@ -1,6 +1,6 @@
 # Imports
-from base import Base, engine
-from table import *
+from scripts.base import Base, engine
+from scripts.table import *
 
 # Script permettant de créer les tables de la DB
 

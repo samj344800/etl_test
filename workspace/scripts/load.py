@@ -2,14 +2,14 @@
 import pandas as pd
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, select
-from base import engine
-from table import ppr_values_temp, ppr_values_clean, raw_bank, bank_final, raw_taux, taux_final
+from scripts.base import engine
+from scripts.table import ppr_values_temp, ppr_values_clean, raw_bank, bank_final, raw_taux, taux_final
 
 
 
 
 #from config import ROOT_PATH
-from common.base import engine
+#from common.base import engine
 
 
 ##########
