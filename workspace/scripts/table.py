@@ -1,7 +1,7 @@
 # Imports
 from sqlalchemy.orm import column_property
 from sqlalchemy import Column, Integer, Float, String
-from base import Base
+from scripts.base import Base
 
 # Script configurant les différentes class sqlalchemy définissant les tables de la DB
 
