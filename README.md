@@ -17,7 +17,7 @@ Création d'un ETL en utilisant Sqlalchemy
 * Utiliser extract.py pour définir les cibles de données si besoin
 * Lancer execute.py 
 
-###2022-07-16
+###2022-07-16 ETL_bank_v1.0
 
 Release
 * Implémentation de config.py
