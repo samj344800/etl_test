@@ -4,32 +4,16 @@ from sqlalchemy.orm import Session
 from sqlalchemy import insert, select
 from scripts.base import engine
 from scripts.table import ppr_values_temp, ppr_values_clean, raw_bank, bank_final, raw_taux, taux_final
-
-
-
-
-#from config import ROOT_PATH
-#from common.base import engine
-
-
-##########
-# Comments
-##########
-
-#fait les imports load_bank/api/immo depuis common
-
-#########
-# Dossier
-#########
-
-ROOT_PATH="/home/lenobian/Python/test/ETL_bank/workspace"
+from config import RAW_PATH
 
 ###########
 # Bank Rang
 ###########
 
+print('Loading "Bank rang" datas in DB')
+
 # Load datas from data/raw/bank_rang.csv
-df_bank=pd.read_csv(ROOT_PATH+"/data/raw/bank_rang.csv")
+df_bank=pd.read_csv(RAW_PATH+"/bank_rang.csv")
 
 # DF to dict
 bank_dict=df_bank.to_dict('records')
@@ -49,13 +33,16 @@ with Session(engine) as session:  #initialize session in with statement to preve
     session.execute(stm)  #execute stm (adding to bank_final)
     session.commit()  # Save
 
+print('"Bank_rang" loaded')
 
 ##########
 # Api taux
 ##########
 
+print('Loading "API Taux" datas in DB')
+
 # Load data from data/raw/api_taux.csv
-df_api=pd.read_csv(ROOT_PATH+"/data/raw/api_taux.csv")
+df_api=pd.read_csv(RAW_PATH+"/api_taux.csv")
 
 # DF to dict
 api_dict=df_api.to_dict('records')
@@ -75,12 +62,16 @@ with Session(engine) as session:  #initialize session in with statement to preve
     session.execute(stm)  #execute stm (adding to bank_final)
     session.commit()  # Save
 
+print('"API Taux" loaded')
+
 ############
 # Ppr Values
 ############
 
+print('Loading "Ppr Values" datas in DB')
+
 # Load datas from extrated_full.csv
-df_ppr=pd.read_csv(ROOT_PATH+"/data/raw/extracted_full.csv")
+df_ppr=pd.read_csv(RAW_PATH+"/extracted_full.csv")
 
 # DF to dict
 ppr_dict=df_ppr.to_dict('records')
@@ -115,3 +106,5 @@ with Session(engine) as session:  #initialize session in with statement to preve
     ppr_id=session.query(ppr_values_temp.id_property)
     session.query(ppr_values_clean).filter(~ppr_values_clean.id_property.in_(ppr_id)).delete(synchronize_session='fetch')  #check diff and delete
     session.commit()
+
+print('"Ppr Values" loaded')
