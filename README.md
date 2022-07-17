@@ -3,12 +3,12 @@ Création d'un ETL en utilisant Sqlalchemy
 
 ## Organisation du repo github
 
-/bckp : contient un backup de fichiers .py
-/notebook : contient les notebook, base du code
+/bckp : contient un backup de fichiers .py  
+/notebook : contient les notebook, base du code  
 /workspace : dossier racine du programme, contient le luncher **execute.py** et
- le fichier de configuration **configure.py**
-/workspace/data : contiendra les downloads(source) et extracts(raw)
-/workspace/scripts : contient "tous"  les scripts exécutables
+ le fichier de configuration **configure.py**  
+ /workspace/data : contiendra les downloads(source) et extracts(raw)  
+ /workspace/scripts : contient "tous"  les scripts exécutables
 
 ## Utilisation
 * **La base de données pointée doit avoir été créée au préalable**
