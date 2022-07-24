@@ -29,6 +29,7 @@ Unrelease
 * Warning pandas et regex sur de futures dépréciation
 * Tester le script en cas de changement ou suppression de données
 * Gestion de l'existence de la DB ou sa crétion suivant config.py
+* Supprimer les tables temporaires après process
 
 ###2022-07-13 version_beta
 

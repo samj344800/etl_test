@@ -17,7 +17,7 @@ print("********")
 print("**** Running transform.py ****")
 exec(open("scripts/transform.py").read()) # __name__=__main__
 print("********")
-print("load.py ***********************************************************")
-exec(open("scripts/load.py").read())
+print("**** Running load.py ****")
+exec(open("scripts/load.py").read()) # __name__=__main__
 print("*************")
 print("END PROGRAMME")
