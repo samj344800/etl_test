@@ -3,10 +3,12 @@ from sqlalchemy.orm import column_property
 from sqlalchemy import Column, Integer, Float, String
 from scripts.base import Base
 
-# Script configurant les différentes class sqlalchemy définissant les tables de la DB
+#Script configurant les différentes class sqlalchemy définissant les tables de la DB
+
+print("Initialisation Sqlalchemy class tables :")
 
 #####################
-# Define class tables
+# Definition class tables
 #####################
 
 # property values temp table
@@ -76,3 +78,5 @@ class taux_final(Base):
     nom=Column(String(55))
     rates=Column(String(55))
     c_pr = column_property(nom + rates)
+
+print("Init terminé.")
