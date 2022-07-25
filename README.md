@@ -17,6 +17,16 @@ Création d'un ETL en utilisant Sqlalchemy
 * Utiliser **extract.py** pour définir les cibles de données si besoin
 * Lancer **execute.py** 
 
+### 2022-07-25 ETL_bank_v1.1
+
+**Release**
+* Test des scripts en cas de suppression ou modification des données
+* Gestion de l'éxistance ou de la création de la DB définie dans config.py
+* Suppression des tables temporaires après proces
+
+**Unrelease**
+* Warning pandas et regex sur de futures dépréciations
+
 ### 2022-07-16 ETL_bank_v1.0
 
 **Release**
@@ -26,7 +36,7 @@ Création d'un ETL en utilisant Sqlalchemy
 * Nettoyage du code et des fichiers
 
 **Unrelease**
-* Warning pandas et regex sur de futures dépréciation
+* Warning pandas et regex sur de futures dépréciations
 * Tester le script en cas de changement ou suppression de données
 * Gestion de l'existence de la DB ou sa crétion suivant config.py
 * Supprimer les tables temporaires après process

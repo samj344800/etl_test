@@ -108,3 +108,14 @@ with Session(engine) as session:  #initialize session in with statement to preve
     session.commit()
 
 print('"Ppr Values" loaded')
+print("**********")
+
+# Clean temp tables
+print("Nettoyage des tables temporaires :")
+with Session(engine) as session:
+    ppr_values_temp.__table__.drop(engine)
+    print("ppr_value_temp dropped!")
+    raw_bank.__table__.drop(engine)
+    print("raw_bank dropped!")
+    raw_taux.__table__.drop(engine)
+    print("raw_taux dropped!")
