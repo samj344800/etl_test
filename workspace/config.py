@@ -13,7 +13,7 @@ SGBD_NAME='mysql'
 SGBD_DRIVER='pymysql'
 HOST_NAME='localhost'
 SGBD_PORT=3306
-DB_NAME='etl_db'
+DB_NAME='testing2_etl_db'
 
 # Récuperation de la date du jour
 date=datetime.datetime.today().strftime('%Y-%m-%d')
