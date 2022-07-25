@@ -11,7 +11,7 @@ Création d'un ETL en utilisant Sqlalchemy
 /workspace/scripts : contient "tous"  les scripts exécutables  
 
 ### Utilisation
-* La base de données pointée **doit avoir été créée au préalable**
+* La base de données pointée est définie dans **config.py**, elle sera crée si elle est inexistante
 * Définir les variables concernant la BD dans **config.py** 
 * Utiliser **table.py** pour configurer les classes/tables si besoin
 * Utiliser **extract.py** pour définir les cibles de données si besoin
