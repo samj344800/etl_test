@@ -1,6 +1,8 @@
 ### Projet
 Création d'un ETL en utilisant Sqlalchemy
 
+Machine learning P7
+
 ### Organisation du repo github
 
 /bckp : contient un backup de fichiers .py  
@@ -9,6 +11,7 @@ Création d'un ETL en utilisant Sqlalchemy
  le fichier de configuration configure.py  
 /workspace/data : contiendra les downloads(source) et extracts(raw)  
 /workspace/scripts : contient "tous"  les scripts exécutables  
+/P7 : contient les notebook machine leaning  
 
 ### Utilisation
 * La base de données pointée est définie dans **config.py**, elle sera crée si elle est inexistante
